@@ -1,15 +1,12 @@
 SUMMARY = "QtWebEngine combines the power of Chromium and Qt"
 
-# Read http://blog.qt.io/blog/2016/01/13/new-agreement-with-the-kde-free-qt-foundation/
-LICENSE = "LGPL-3.0 & BSD & GPL-3.0 & The-Qt-Company-GPL-Exception-1.0"
+LICENSE = "LGPL-3.0 & BSD"
 LIC_FILES_CHKSUM = " \
-    file://src/core/browser_context_qt.cpp;md5=b5193b7d68699260f3b40b201365c8d2;beginline=1;endline=38 \
-    file://src/3rdparty/chromium/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
-    file://LICENSE.LGPL3;md5=8211fde12cc8a4e2477602f5953f5b71 \
+    file://src/core/browser_context_qt.cpp;md5=5fe719c44250955a5d5f8fb15fc8b1da;beginline=1;endline=35 \
+    file://src/3rdparty/chromium/LICENSE;md5=537e0b52077bf0a616d0a0c8a79bc9d5 \
+    file://LICENSE.LGPLv3;md5=8211fde12cc8a4e2477602f5953f5b71 \
     file://LICENSE.GPLv3;md5=88e2b9117e6be406b5ed6ee4ca99a705 \
-    file://LICENSE.GPL3;md5=d32239bcb673463ab874e80d47fae504 \
-    file://LICENSE.GPL3-EXCEPT;md5=763d8c535a234d9a3fb682c7ecb6c073 \
-    file://LICENSE.GPL2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+    file://LICENSE.GPLv2;md5=c96076271561b0e3785dad260634eaa8 \
 "
 
 DEPENDS += " \
@@ -19,7 +16,6 @@ DEPENDS += " \
     qtlocation \
     libdrm fontconfig pixman openssl pango cairo icu pciutils \
     libcap \
-    gperf-native \
 "
 
 # when qtbase is built with xcb enabled (default with x11 in DISTRO_FEATURES),
@@ -110,7 +106,7 @@ RDEPENDS_${PN}-examples += " \
     qtdeclarative-qmlplugins \
 "
 
-QT_MODULE_BRANCH_CHROMIUM = "49-based"
+QT_MODULE_BRANCH_CHROMIUM = "45-based"
 
 SRC_URI += " \
     ${QT_GIT}/qtwebengine-chromium.git;name=chromium;branch=${QT_MODULE_BRANCH_CHROMIUM};destsuffix=git/src/3rdparty \
@@ -123,10 +119,10 @@ SRC_URI += " \
     file://0002-chromium-Change-false-to-FALSE-and-1-to-TRUE-FIX-qtw.patch \
 "
 
-SRCREV_qtwebengine = "9cc97f0c63049a8076476acc89c875c9e240abfb"
-# This is in git submodule, but we're using the latest in 49-based
-# SRCREV_chromium = "c109a95a067af783e48f93d1cdeca870cda98878"
-SRCREV_chromium = "b3c79e92f0a631273b639af171e59f4c367ae02e"
+SRCREV_qtwebengine = "808ca6e6917cf17e4c30fcd3ac609164b36594cc"
+# This is in git submodule, but we're using latest in 45-based
+# SRCREV_chromium = "79930a541473b2e0f950d040c16ab6f22e4aeef3"
+SRCREV_chromium = "9d6566ee193e8996fb867cf776dc13f697400f24"
 SRCREV = "${SRCREV_qtwebengine}"
 
 SRCREV_FORMAT = "qtwebengine_chromium"

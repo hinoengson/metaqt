@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = " \
     file://Source/JavaScriptCore/parser/Parser.h;endline=21;md5=bd69f72183a7af673863f057576e21ee \
 "
 
-DEPENDS += "qtbase qtdeclarative icu ruby-native sqlite3 glib-2.0 libxslt gperf-native"
+DEPENDS += "qtbase qtdeclarative icu ruby-native sqlite3 glib-2.0 libxslt"
 
 # qemuarm build fails with:
 # | {standard input}: Assembler messages:
@@ -24,10 +24,7 @@ SRC_URI += "\
     file://0003-Exclude-backtrace-API-for-non-glibc-libraries.patch \
 "
 
-PACKAGECONFIG ??= "gstreamer qtlocation qtmultimedia qtsensors qtwebchannel \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxcomposite libxrender', '', d)} \
-    fontconfig \
-"
+PACKAGECONFIG ??= "gstreamer qtlocation qtmultimedia qtsensors qtwebchannel"
 PACKAGECONFIG[gstreamer] = "OE_GSTREAMER_ENABLED,,gstreamer1.0 gstreamer1.0-plugins-base"
 PACKAGECONFIG[gstreamer010] = "OE_GSTREAMER010_ENABLED,,gstreamer gst-plugins-base"
 PACKAGECONFIG[qtlocation] = "OE_QTLOCATION_ENABLED,,qtlocation"
@@ -35,9 +32,6 @@ PACKAGECONFIG[qtmultimedia] = "OE_QTMULTIMEDIA_ENABLED,,qtmultimedia"
 PACKAGECONFIG[qtsensors] = "OE_QTSENSORS_ENABLED,,qtsensors"
 PACKAGECONFIG[qtwebchannel] = "OE_QTWEBCHANNEL_ENABLED,,qtwebchannel"
 PACKAGECONFIG[libwebp] = "OE_LIBWEBP_ENABLED,,libwebp"
-PACKAGECONFIG[libxcomposite] = "OE_LIBXCOMPOSITE_ENABLED,,libxcomposite"
-PACKAGECONFIG[libxrender] = "OE_LIBXRENDER_ENABLED,,libxrender"
-PACKAGECONFIG[fontconfig] = "OE_FONTCONFIG_ENABLED,,fontconfig"
 
 do_configure_prepend() {
     export QMAKE_CACHE_EVAL="CONFIG+=${PACKAGECONFIG_CONFARGS}"
@@ -56,12 +50,6 @@ do_configure_prepend() {
     sed -e 's/\s\(qtHaveModule(webchannel)\)/ OE_QTWEBCHANNEL_ENABLED:\1/' -i ${S}/Source/WebKit2/WebKit2.pri
     # disable libwebp test if it isn't enabled by PACKAGECONFIG
     sed -e 's/\s\(config_libwebp: \)/ OE_LIBWEBP_ENABLED:\1/' -i ${S}/Tools/qmake/mkspecs/features/features.prf
-    # disable libxcomposite test if it isn't enabled by PACKAGECONFIG
-    sed -e 's/\s\(config_libXcomposite: \)/ OE_LIBXCOMPOSITE_ENABLED:\1/' -i ${S}/Tools/qmake/mkspecs/features/features.prf
-    # disable libxrender test if it isn't enabled by PACKAGECONFIG
-    sed -e 's/\s\(config_libXrender: \)/ OE_LIBXRENDER_ENABLED:\1/' -i ${S}/Tools/qmake/mkspecs/features/features.prf
-    # disable fontconfig test if it isn't enabled by PACKAGECONFIG
-    sed -e 's/\s\(config_fontconfig: \)/ OE_FONTCONFIG_ENABLED:\1/' -i ${S}/Tools/qmake/mkspecs/features/features.prf
 }
 
 # qtwebkit gets terribly big when linking with all debug info, disable by default
@@ -83,4 +71,4 @@ PACKAGES_remove = "${PN}-examples-dev ${PN}-examples-staticdev ${PN}-examples-db
 RUBY_SYS = "${@ '${BUILD_SYS}'.replace('i486', 'i386').replace('i586', 'i386').replace('i686', 'i386') }"
 export RUBYLIB="${STAGING_DATADIR_NATIVE}/rubygems:${STAGING_LIBDIR_NATIVE}/ruby:${STAGING_LIBDIR_NATIVE}/ruby/${RUBY_SYS}"
 
-SRCREV = "76e2732f013732461c09a1d6c6b4c77fcab1c0d0"
+SRCREV = "a6c9dd667d534d3342bfba456f9d5c146a924de0"
